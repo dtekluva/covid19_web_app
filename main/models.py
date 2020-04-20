@@ -126,16 +126,19 @@ class Visitor(models.Model):
     last_visit = models.DateTimeField(auto_now=True)
 
     def record(self, request):
-        ip = request.META.get('REMOTE_ADDR', "No IP")
-        useragent = request.META.get('REMOTE_ADDR', "No user agent")
-        name = request.META.get('COMPUTERNAME', None)
+        try:
+            ip = request.META.get('REMOTE_ADDR', "No IP")
+            useragent = request.META.get('REMOTE_ADDR', "No user agent")
+            name = request.META.get('COMPUTERNAME', "No name")
 
-        visitor = Visitor.objects.get_or_create(ip = ip)[0]
-        visitor.hits += 1
-        visitor.name = name
-        visitor.user_agent = useragent
-        visitor.last_visit = datetime.datetime.now()
-        visitor.save()
+            visitor = Visitor.objects.get_or_create(ip = ip)[0]
+            visitor.hits += 1
+            visitor.name = name
+            visitor.user_agent = useragent
+            visitor.last_visit = datetime.datetime.now()
+            visitor.save()
+        except:
+            print("UNABLE TO LOG VISITOR")
 
     def __str__(self):
         return self.ip
