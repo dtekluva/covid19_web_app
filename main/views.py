@@ -14,7 +14,7 @@ def index(request):
 
 @csrf_exempt
 def get_global_readings(request):
-
+    Visitor().record(request)
     global_reads = Country().get_global_reading()
 
     try:
@@ -30,12 +30,118 @@ def get_global_readings(request):
                                         })
                                         )
 
-        return CORS(resp).allow_all()
+        return CORS(resp).allow_all(status_code=200)
                         
 
     except:
             resp = (json.dumps({"response": {"task_successful": False, "code": http_codes["Method Not Allowed"],                    "content": {
                                 "user": "", "message": "bad request method"}, "auth_keys": {"access_token": ""}}}))
+
+            return CORS(resp).allow_all()
+
+@csrf_exempt
+def get_all_countries(request):
+    Visitor().record(request)
+    countries = Country().get_all_countries()
+
+    if True:
+        resp = (json.dumps({"response": {
+                                        "code": http_codes["Created"],
+                                        "task_successful": True,
+                                        "content": {
+                                                    "readings": countries
+                                                },
+                                        "auth_keys": {"access_token": ""
+                                        }
+                                        }
+                                        })
+                                        )
+
+        return CORS(resp).allow_all(status_code=200)
+                        
+
+    else:
+            resp = (json.dumps({"response": {"task_successful": False, "code": http_codes["Method Not Allowed"],                    "content": {
+                                "user": "", "message": "bad request method"}, "auth_keys": {"access_token": ""}}}))
+
+            return CORS(resp).allow_all()
+
+@csrf_exempt
+def get_moving_difference(request, country):
+    Visitor().record(request)
+    country = Country.objects.filter(name = country)
+
+    if country:
+        resp = (json.dumps({"response": {
+                                        "code": http_codes["Created"],
+                                        "task_successful": True,
+                                        "content": {
+                                                    "readings": country[0].get_moving_difference()
+                                                },
+                                        "auth_keys": {"access_token": ""
+                                        }
+                                        }
+                                        })
+                                        )
+
+        return CORS(resp).allow_all(status_code=201)
+                        
+
+    else:
+            resp = (json.dumps({"response": {"task_successful": False, "code": http_codes["Method Not Allowed"],                    "content": {
+                                "readings": [], "message": "bad request method"}, "auth_keys": {"access_token": ""}}}))
+
+            return CORS(resp).allow_all(status_code=200)
+
+@csrf_exempt
+def get_states_data(request, country):
+    Visitor().record(request)
+    data = State().get_states_data(country)
+
+    if country:
+        resp = (json.dumps({"response": {
+                                        "task_successful": True,
+                                        "content": {
+                                                    "readings": data
+                                                },
+                                        "auth_keys": {"access_token": ""
+                                        }
+                                        }
+                                        })
+                                        )
+
+        return CORS(resp).allow_all(status_code=201)
+                        
+
+    else:
+            resp = (json.dumps({"response": {"task_successful": False, "code": http_codes["Method Not Allowed"],                    "content": {
+                                "readings": [], "message": "bad request method"}, "auth_keys": {"access_token": ""}}}))
+
+            return CORS(resp).allow_all(status_code=500)
+
+@csrf_exempt
+def fetch_data(request, country1, country2, country3):
+    Visitor().record(request)
+    country = Country().fetch_data(country_list = [country1, country2, country3])
+    
+    if country:
+        resp = (json.dumps({"response": {
+                                        "task_successful": True,
+                                        "content": {
+                                                    "readings": country
+                                                },
+                                        "auth_keys": {"access_token": ""
+                                        }
+                                        }
+                                        })
+                                        )
+
+        return CORS(resp).allow_all(status_code=200)
+                        
+
+    else:
+            resp = (json.dumps({"response": {"task_successful": False, "code": http_codes["Method Not Allowed"],                    "content": {
+                                "readings": [], "message": "bad request method"}, "auth_keys": {"access_token": ""}}}))
 
             return CORS(resp).allow_all()
 

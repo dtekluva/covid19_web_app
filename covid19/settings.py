@@ -35,7 +35,7 @@ LOGIN_URL = '/auth/login'
 SECRET_KEY = 'v$%^qr!1@t+!fe@8=#2f1csz@8-=wob$3+2($2dz-k4+m=#pbo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
                 "localhost" ,

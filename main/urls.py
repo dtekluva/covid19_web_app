@@ -22,6 +22,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.index, name='index'),
     path('get_global_readings/', views.get_global_readings, name='get_global_readings'),
+    path('get_all_countries/', views.get_all_countries, name='get_all_countries'),
+    path('get_moving_difference/<str:country>', views.get_moving_difference, name='get_moving_difference'),
+    path('get_states_data/<str:country>', views.get_states_data, name='get_states_data'),
+    path('fetch_data/<str:country1>/<str:country2>/<str:country3>', views.fetch_data, name='fetch_data'),
     # path('get_all_users/', views.get_all_users, name='get_all_users'),
     # path('get_all_forms/', views.get_all_forms, name='get_all_forms'),
     # path('post_credentials_form/', views.post_credentials_form, name='post_credentials_form')
