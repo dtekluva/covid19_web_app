@@ -39,7 +39,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
                 "localhost" ,
-                "covid19.pythonanywhere.com",    
+                "ncovid19.pythonanywhere.com",    
                 "datanigeria.pythonanywhere.com"      
                 ]
 
