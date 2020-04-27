@@ -70,7 +70,7 @@ class Country(models.Model):
 
     def get_moving_difference(self):
 
-        try:
+        if True:
 
             datapoints = self.datapoint_set.all().values("cases")
             points_dataframe = pd.DataFrame(data = datapoints)
@@ -79,7 +79,7 @@ class Country(models.Model):
 
             return list(points_dataframe["cases"])[1:]
 
-        except:
+        else:
             return [0,0,0,0,0,0,0,0,0,0,0]
 
     def __str__(self):
