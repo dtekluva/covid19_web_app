@@ -29,6 +29,25 @@ class Command(BaseCommand):
 
         rows = table.findAll(lambda tag: tag.name=='tr')
 
+        total = bs.findAll(lambda tag: tag.name=='b' ) 
+
+        country = Country.objects.get_or_create(name = "Global")[0]
+        country.cases = int(total[3].text.replace(",", ""))
+        country.deaths = int(total[4].text.replace(",", ""))
+        country.recoveries = int(total[5].text.replace(",", ""))
+
+        country.save()
+        print(country.cases, country.deaths, country.recoveries)
+        
+        datapoint = Datapoint.objects.get_or_create(date = datetime.datetime.now(), country = country)[0]
+    
+        datapoint.country = country
+        datapoint.cases = country.cases
+        datapoint.deaths = country.deaths
+        datapoint.recoveries = country.recoveries
+
+        datapoint.save()
+
         for row in rows:
 
             row_data = row.find(lambda tag: tag.name=='a')
@@ -57,13 +76,13 @@ class Command(BaseCommand):
             if True :
 
                 country = Country.objects.get_or_create(name = name)[0]
-                print(country)
+                # print(country)
                 country.cases = cases      
                 country.deaths = deaths
                 country.recoveries = recovs
 
                 country.save()
-                print(row_data.text, country.cases, country.deaths, country.recoveries)
+                # print(row_data.text, country.cases, country.deaths, country.recoveries)
                 
                 datapoint = Datapoint.objects.get_or_create(date = datetime.datetime.now(), country = country)[0]
             
