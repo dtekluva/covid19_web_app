@@ -177,7 +177,7 @@ def update_predictions():
 
             country.predicted = predictor(len(values)+5)
             country.accuracy = accuracy
-            # country.save()
+            country.save()
 
             print(country.name, country.predicted, country.accuracy )
 
