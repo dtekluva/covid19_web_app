@@ -66,9 +66,9 @@ class Command(BaseCommand):
 
             if len(children) > 2:
 
-                cases = children[0].text.replace(",", "").replace("—\n", "0")
-                deaths = children[1].text.replace(",", "").replace("—\n", "0")
-                recovs = children[2].text.replace(",", "").replace("—\n", "0")
+                cases = children[0].text.replace(",", "").replace("—\n", "0").replace("\n", "").replace("No data", "0")
+                deaths = children[1].text.replace(",", "").replace("—\n", "0").replace("\n", "").replace("No data", "0")
+                recovs = children[2].text.replace(",", "").replace("—\n", "0").replace("\n", "").replace("No data", "0")
 
             else:
                 continue
