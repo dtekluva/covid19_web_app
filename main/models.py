@@ -59,6 +59,7 @@ class Country(models.Model):
                 datapoints = country_object.datapoint_set.all().values("cases", "deaths", "recoveries", "date")
 
                 points_dataframe = pd.DataFrame(data = datapoints)
+                points_dataframe["active_cases"] = points_dataframe.cases - (points_dataframe.deaths + points_dataframe.recoveries)
                 points_dataframe["date"] = points_dataframe["date"].astype("str")
 
                 response.append({"country": country_data, "data":points_dataframe.to_dict('records') }) #CONVERT TO RECORDS TYPE PANDAS DICT
