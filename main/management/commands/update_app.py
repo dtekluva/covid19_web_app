@@ -92,7 +92,7 @@ def update_global_data():
 
         rows = table.findAll(lambda tag: tag.name=='tr')
 
-        total = bs.findAll(lambda tag: tag.name=='b' ) 
+        total = bs.findAll("tr", {"class": "sorttop"})[0].findAll("th") 
 
         country = Country.objects.get_or_create(name = "Global")[0]
         country.cases = int(total[3].text.replace(",", ""))

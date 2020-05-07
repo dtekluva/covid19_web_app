@@ -29,12 +29,12 @@ class Command(BaseCommand):
 
         rows = table.findAll(lambda tag: tag.name=='tr')
 
-        total = bs.findAll(lambda tag: tag.name=='b' ) 
+        total = bs.findAll("tr", {"class": "sorttop"})[0].findAll("th")
 
         country = Country.objects.get_or_create(name = "Global")[0]
-        country.cases = int(total[3].text.replace(",", ""))
-        country.deaths = int(total[4].text.replace(",", ""))
-        country.recoveries = int(total[5].text.replace(",", ""))
+        country.cases = int(total[1].text.replace(",", ""))
+        country.deaths = int(total[2].text.replace(",", ""))
+        country.recoveries = int(total[3].text.replace(",", ""))
 
         country.save()
         print(country.cases, country.deaths, country.recoveries)
