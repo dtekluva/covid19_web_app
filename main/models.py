@@ -56,7 +56,7 @@ class Country(models.Model):
                                 }
             try:
                 
-                datapoints = country_object.datapoint_set.all().values("cases", "deaths", "recoveries", "date")
+                datapoints = country_object.datapoint_set.all().order_by("date").values("cases", "deaths", "recoveries", "date")
 
                 points_dataframe = pd.DataFrame(data = datapoints)
                 points_dataframe["active_cases"] = points_dataframe.cases - (points_dataframe.deaths + points_dataframe.recoveries)
@@ -73,7 +73,7 @@ class Country(models.Model):
 
         if True:
 
-            datapoints = self.datapoint_set.all().values("cases")
+            datapoints = self.datapoint_set.all().order_by("date").values("cases")
             points_dataframe = pd.DataFrame(data = datapoints)
 
             points_dataframe = points_dataframe.diff(axis=0)
