@@ -13,6 +13,30 @@ def index(request):
     return HttpResponse(json.dumps({"response": "success", "message": "Sorry no content here. Maybe download the app."}))
 
 @csrf_exempt
+def record_visit(request):
+
+    data = ""
+
+    if request.method == 'POST':
+
+        ip, user_agent = request.POST.get("ip","null"), request.POST.get("user_agent","null")
+        Visitor().record_via_js(ip, user_agent)
+
+    resp = (json.dumps({"response": {
+                                        "code": http_codes["Created"],
+                                        "task_successful": True,
+                                        "content": {
+                                                    "readings": data
+                                                },
+                                        "auth_keys": {"access_token": ""
+                                        }
+                                        }
+                                        })
+                                        )
+
+    return CORS(resp).allow_all(status_code=200)
+
+@csrf_exempt
 def get_global_readings(request):
     Visitor().record(request)
     global_reads = Country().get_global_reading()

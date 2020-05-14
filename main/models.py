@@ -81,7 +81,7 @@ class Country(models.Model):
             return list(points_dataframe["cases"])[1:]
 
         else:
-            return [0,0,0,0,0,0,0,0,0,0,0]
+            return [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     def __str__(self):
         return self.name
@@ -131,6 +131,21 @@ class Visitor(models.Model):
             ip = request.META.get('REMOTE_ADDR', "No IP")
             useragent = request.META.get('REMOTE_ADDR', "No user agent")
             name = request.META.get('COMPUTERNAME', "No name")
+
+            visitor = Visitor.objects.get_or_create(ip = ip)[0]
+            visitor.hits += 1
+            visitor.name = name
+            visitor.user_agent = useragent
+            visitor.last_visit = datetime.datetime.now()
+            visitor.save()
+        except:
+            print("UNABLE TO LOG VISITOR")
+
+    def record_via_js(self, ip, user_agent):
+        try:
+            ip = ip
+            useragent = user_agent
+            name = "No name"
 
             visitor = Visitor.objects.get_or_create(ip = ip)[0]
             visitor.hits += 1
